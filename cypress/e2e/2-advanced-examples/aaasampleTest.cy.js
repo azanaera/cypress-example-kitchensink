@@ -3,9 +3,9 @@ const cypressConfig = require("../../../cypress.config")
 const navBar = Cypress.env('navbarText')
 
 context('My First Test', () => {
-  beforeEach(() => {
-    cy.visit('/commands/actions')
-  })
+//   beforeEach(() => {
+//     cy.visit('/commands/actions')
+//   })
 
   //   it('has an h1 on the page', () => {
   //     cy.get('h1').should('exist');
@@ -26,8 +26,15 @@ context('My First Test', () => {
   //     });
   //   });
 
-  it('correctly renders the cypress website link', ()  => {
-    cy.findByText(navBar).should('exist')
-    cy.findByText('cypress.io').should('exist')
-  })
+//   it('correctly renders the cypress website link', ()  => {
+//     cy.findByText(navBar).should('exist')
+//     cy.findByText('cypress.io').should('exist')
+//   })
+
+    it('types into an email field', () => {
+        cy.visit('/commands/actions') // run by queue
+        cy.findByPlaceholderText('Email').type('test@gmail.com')
+        cy.wait(5000)
+        console.log('test is finished') // execute immediately
+    })
 }) 
