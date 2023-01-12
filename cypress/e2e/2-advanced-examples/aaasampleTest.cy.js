@@ -1,4 +1,4 @@
-const cypressConfig = require("../../../cypress.config")
+/// <reference types="cypress" />
 
 const navBar = Cypress.env('navbarText')
 
@@ -34,7 +34,13 @@ context('My First Test', () => {
     it('types into an email field', () => {
         cy.visit('/commands/actions') // run by queue
         cy.findByPlaceholderText('Email').type('test@gmail.com')
-        cy.wait(5000)
-        console.log('test is finished') // execute immediately
+        cy.wait(2000).then(() => {
+          console.log('test is finished');
+          fetch('https://jsonplaceholder.typicode.com/users')
+          .then((res) => res.json())
+          .then((data) => {
+              console.log(data) 
+          })
+        })
     })
 }) 
