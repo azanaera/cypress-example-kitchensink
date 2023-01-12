@@ -26,21 +26,35 @@ context('My First Test', () => {
   //     });
   //   });
 
-//   it('correctly renders the cypress website link', ()  => {
-//     cy.findByText(navBar).should('exist')
-//     cy.findByText('cypress.io').should('exist')
-//   })
+  //   it('correctly renders the cypress website link', ()  => {
+  //     cy.findByText(navBar).should('exist')
+  //     cy.findByText('cypress.io').should('exist')
+  //   })
 
-    it('types into an email field', () => {
-        cy.visit('/commands/actions') // run by queue
-        cy.findByPlaceholderText('Email').type('test@gmail.com')
-        cy.wait(2000).then(() => {
-          console.log('test is finished');
-          fetch('https://jsonplaceholder.typicode.com/users')
-          .then((res) => res.json())
-          .then((data) => {
-              console.log(data) 
-          })
-        })
-    })
+  // it('types into an email field', () => {
+  //   cy.visit('/commands/actions') // run by queue
+  //   cy.findByPlaceholderText('Email').type('test@gmail.com')
+  //   cy.wait(2000).then(() => {
+  //     console.log('test is finished');
+  //     fetch('https://jsonplaceholder.typicode.com/users')
+  //         .then((res) => res.json())
+  //         .then((data) => {
+  //           console.log(data) 
+  //         })
+  //   })
+  // })
+
+  it('shows an active class for the current page ', () => {
+    cy.visit('/commands/actions')
+    cy.get('.dropdown-menu').find('li').eq(2).should('have.class','active')
+  })
+
+
+  it('should not have an active class on inactive pages', () => {
+    cy.visit('/commands/actions')
+    cy.get('.dropdown-menu')
+    .find('li').first()
+    .should('not.have.class','active')
+    .find('a').should('have.attr','href ','/commands/querying')
+  })
 }) 
