@@ -44,17 +44,42 @@ context('My First Test', () => {
   //   })
   // })
 
-  it('shows an active class for the current page ', () => {
-    cy.visit('/commands/actions')
-    cy.get('.dropdown-menu').find('li').eq(2).should('have.class','active')
+  // it('shows an active class for the current page ', () => {
+  //   cy.visit('/commands/actions')
+  //   cy.get('.dropdown-menu').find('li').eq(2).should('have.class','active')
+  // })
+
+
+  // it('should not have an active class on inactive pages', () => {
+  //   cy.visit('/commands/actions')
+  //   cy.get('.dropdown-menu')
+  //   .find('li').first()
+  //   .should('not.have.class','active')
+  //   .find('a').should('have.attr','href ','/commands/querying')
+  // })
+
+  it('links to the actions page correctly', () => {
+    cy.visit('/')
+    cy.findAllByText('Actions').last().click() // 
+    cy.findAllByText('Actions').first().click({force:true}) // is not visible, so force click
+    cy.url().should('include','commands/actions') // verify the route 
   })
 
-
-  it('should not have an active class on inactive pages', () => {
+  it('lets you type in an input field', () => {
     cy.visit('/commands/actions')
-    cy.get('.dropdown-menu')
-    .find('li').first()
-    .should('not.have.class','active')
-    .find('a').should('have.attr','href ','/commands/querying')
+    cy.findByPlaceholderText('Email').type('Test').should('have.value','Test')
+  })
+
+  it('lets you clear an input field', () => {
+    cy.visit('/commands/actions')
+    cy.findByLabelText('Describe:').type('Test Desc').should('have.value','Test Desc')
+    .clear().should('have.value','')
+  })
+
+  it('lets you check a checkbox', () => {
+    cy.visit('/commands/actions')
+    cy.get('.action-checkboxes [type="checkbox"]')
+      .first().check().should('be.checked')
+      // .eq(1).check({force:true}).should('be.checked')
   })
 }) 
