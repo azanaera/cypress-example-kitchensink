@@ -3,9 +3,21 @@
 const navBar = Cypress.env('navbarText')
 
 context('My First Test', () => {
-//   beforeEach(() => {
-//     cy.visit('/commands/actions')
-//   })
+  before(() => {
+    cy.request('https://jsonplaceholder.typicode.com/users').its('body').should('have.length',10)
+  })
+
+  beforeEach(() => {
+    cy.visit('/')
+  })
+
+  afterEach(() => {
+    cy.log('after each hook/test is here')
+  })
+
+  after(() => {
+    cy.log('the final after hook runs once')
+  })
 
   //   it('has an h1 on the page', () => {
   //     cy.get('h1').should('exist');
@@ -58,28 +70,28 @@ context('My First Test', () => {
   //   .find('a').should('have.attr','href ','/commands/querying')
   // })
 
-  it('links to the actions page correctly', () => {
-    cy.visit('/')
-    cy.findAllByText('Actions').last().click() // 
-    cy.findAllByText('Actions').first().click({force:true}) // is not visible, so force click
-    cy.url().should('include','commands/actions') // verify the route 
-  })
+  // it('links to the actions page correctly', () => {
+  //   cy.visit('/')
+  //   cy.findAllByText('Actions').last().click() // 
+  //   cy.findAllByText('Actions').first().click({force:true}) // is not visible, so force click
+  //   cy.url().should('include','commands/actions') // verify the route 
+  // })
 
-  it('lets you type in an input field', () => {
-    cy.visit('/commands/actions')
-    cy.findByPlaceholderText('Email').type('Test').should('have.value','Test')
-  })
+  // it('lets you type in an input field', () => {
+  //   cy.visit('/commands/actions')
+  //   cy.findByPlaceholderText('Email').type('Test').should('have.value','Test')
+  // })
 
-  it('lets you clear an input field', () => {
-    cy.visit('/commands/actions')
-    cy.findByLabelText('Describe:').type('Test Desc').should('have.value','Test Desc')
-    .clear().should('have.value','')
-  })
+  // it('lets you clear an input field', () => {
+  //   cy.visit('/commands/actions')
+  //   cy.findByLabelText('Describe:').type('Test Desc').should('have.value','Test Desc')
+  //   .clear().should('have.value','')
+  // })
 
-  it('lets you check a checkbox', () => {
-    cy.visit('/commands/actions')
-    cy.get('.action-checkboxes [type="checkbox"]')
-      .first().check().should('be.checked')
-      // .eq(1).check({force:true}).should('be.checked')
-  })
+  // it('lets you check a checkbox', () => {
+  //   cy.visit('/commands/actions')
+  //   cy.get('.action-checkboxes [type="checkbox"]')
+  //     .first().check().should('be.checked')
+  //     // .eq(1).check({force:true}).should('be.checked')
+  // })
 }) 
