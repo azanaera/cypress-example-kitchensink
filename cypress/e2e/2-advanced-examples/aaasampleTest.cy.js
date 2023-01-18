@@ -11,30 +11,39 @@ context('My First Test', () => {
     })
   })
 
-
-  it('uses fixture data in a network request', function() {
-    cy.visit('/commands/network-requests')
-    cy.intercept('GET', '**/comments/*').as('getComment')
-    cy.get('.network-btn').click()
-    cy.wait('@getComment').then((res) => {
-      cy.log('Response: ',res)
-    })
+  it('sets a token in local storage', () => {
+    cy.setLocalStorage('token', 'abcd123')
   })
 
 
-  it('pulls data from a fixture', () => {
-    cy.fixture('example').then((data) => {
-      cy.log('Data : ', data)
-    })
+  it('gets a token from local storage', () => {
+    cy.getLocalStorage('token').should('eq','abcd123')
   })
 
 
-  it('updated fixture data inline', () => {
-    cy.fixture('example').then((data) => {
-      data.email = 'update@mail.com'
-      cy.log('updated : ', data)
-    })
-  })
+  // it('uses fixture data in a network request', function() {
+  //   cy.visit('/commands/network-requests')
+  //   cy.intercept('GET', '**/comments/*').as('getComment')
+  //   cy.get('.network-btn').click()
+  //   cy.wait('@getComment').then((res) => {
+  //     cy.log('Response: ',res)
+  //   })
+  // })
+
+
+  // it('pulls data from a fixture', () => {
+  //   cy.fixture('example').then((data) => {
+  //     cy.log('Data : ', data)
+  //   })
+  // })
+
+
+  // it('updated fixture data inline', () => {
+  //   cy.fixture('example').then((data) => {
+  //     data.email = 'update@mail.com'
+  //     cy.log('updated : ', data)
+  //   })
+  // })
 
   before(() => {
     cy.request('https://jsonplaceholder.typicode.com/users').its('body').should('have.length',10)
