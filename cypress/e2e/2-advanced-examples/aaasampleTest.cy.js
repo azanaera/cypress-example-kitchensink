@@ -3,12 +3,41 @@
 const navBar = Cypress.env('navbarText')
 
 context('My First Test', () => {
-  before(() => {
-    cy.request('https://jsonplaceholder.typicode.com/users').its('body').should('have.length',10)
-  })
 
   beforeEach(() => {
-    cy.visit('/')
+    cy.fixture('example').then(function(data) {
+      this.data = data
+      cy.log('THIS : ',this.data)
+    })
+  })
+
+
+  it('uses fixture data in a network request', function() {
+    cy.visit('/commands/network-requests')
+    cy.intercept('GET', '**/comments/*').as('getComment')
+    cy.get('.network-btn').click()
+    cy.wait('@getComment').then((res) => {
+      cy.log('Response: ',res)
+    })
+  })
+
+
+  it('pulls data from a fixture', () => {
+    cy.fixture('example').then((data) => {
+      cy.log('Data : ', data)
+    })
+  })
+
+
+  it('updated fixture data inline', () => {
+    cy.fixture('example').then((data) => {
+      data.email = 'update@mail.com'
+      cy.log('updated : ', data)
+    })
+  })
+
+  before(() => {
+    cy.request('https://jsonplaceholder.typicode.com/users').its('body').should('have.length',10)
   })
 
   afterEach(() => {
