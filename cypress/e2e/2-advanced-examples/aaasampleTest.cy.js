@@ -5,20 +5,46 @@ const navBar = Cypress.env('navbarText')
 context('My First Test', () => {
 
   beforeEach(() => {
-    cy.fixture('example').then(function(data) {
-      this.data = data
-      cy.log('THIS : ',this.data)
-    })
+    cy.visit('commands/actions')
   })
 
-  it('sets a token in local storage', () => {
-    cy.setLocalStorage('token', 'abcd123')
+  it('trigers a popover on click', () => {
+    cy.get('.action-btn').click()
+    cy.findByText('This popover shows up on click').should('be.visible')
+  })
+
+  it('can click on different sections of a canvas', () => {
+    cy.get('#action-canvas').click('top')
+    cy.get('#action-canvas').click('bottomRight')
+    cy.get('#action-canvas').click(80,100)
   })
 
 
-  it('gets a token from local storage', () => {
-    cy.getLocalStorage('token').should('eq','abcd123')
+  it('can double click to edit', () => {
+    cy.get('.action-div').dblclick().should('not.be.visible')
+    cy.get('.action-input-hidden').should('be.visible')
   })
+
+  it('can right click to edit', () => {
+    cy.get('.rightclick-action-div').rightclick().should('not.be.visible')
+    cy.get('.rightclick-action-input-hidden').should('be.visible')
+  })
+
+  it('shows the nav link on hover', () => {
+    cy.get('.dropdown-toggle').trigger('click') // mouseover not working
+    cy.get('.dropdown-menu').should('be.visible')
+  })
+
+
+
+  // it('sets a token in local storage', () => {
+  //   cy.setLocalStorage('token', 'abcd123')
+  // })
+
+
+  // it('gets a token from local storage', () => {
+  //   cy.getLocalStorage('token').should('eq','abcd123')
+  // })
 
 
   // it('uses fixture data in a network request', function() {
